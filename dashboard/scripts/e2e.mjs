@@ -71,8 +71,14 @@ try {
     const btn = document.querySelector('nav button[aria-label="Team"]')
     btn?.click()
   })
-  await sleep(1500)
-  const teamBody = await page.evaluate(() => document.body.innerText)
+  // event-based wait: the tab's content fetch through a remote backend
+  // (Render) takes ~1s+ — a fixed 1.5s sleep was borderline there.
+  let teamBody = ''
+  for (let i = 0; i < 30; i++) {
+    teamBody = await page.evaluate(() => document.body.innerText)
+    if (teamBody.includes('Humans and AI agents under one policy engine')) break
+    await sleep(500)
+  }
   ok(
     'Team tab renders API-backed content',
     teamBody.includes('Humans and AI agents under one policy engine'),
