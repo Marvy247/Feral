@@ -18,14 +18,39 @@ Built for the **Tempo track** (Crypto World's Fair by Colosseum), Moderato testn
 
 ---
 
-## The 4 demo beats (see [DEMO_VIDEO.md](DEMO_VIDEO.md))
+## 90-second tour — verify every claim yourself
 
-| # | Beat | Proof |
-|---|------|-------|
-| 1 | Unapproved vendor pays → **the chain rejects it** | tx with `Status: Failed` on `FeralPolicyEngine.pay()` |
-| 2 | Agent goes rogue → owner revokes **on-chain** → agent's next payment reverts `MemberInactive()` | two txs: revoke + reverted payment |
-| 3 | Client pays an invoice's virtual address → protocol **auto-forwards to treasury** → invoice flips to *paid* by itself | explorer shows `Forwarded 1,250 PathUSD to 0x27A2…` |
-| 4 | Approved payment settles with a real tx, streams into Policy Radar over WebSocket | tx hash + radar event |
+No video and no setup required: each step below is something you can do (or
+check) against the running app or the explorer, straight from this page.
+
+1. **The roster shows what the chain will enforce.** Every team card's
+   weekly-limit bar reads `spentThisWeek()` straight from `FeralPolicyEngine`
+   — the number a payment will actually be measured against, not a cached UI
+   figure.
+2. **Pre-flight asks the chain before you spend.** Hit *Pay* and a read-only
+   `check()` returns the verdict ✅/❌ *before* anything is broadcast — the
+   answer the chain will give, seconds early.
+3. **A blocked payment leaves public evidence.** Attempt any forbidden move
+   (unapproved vendor, over the weekly limit, revoked member) and the
+   transaction is still broadcast — then reverts `CallNotAllowed()`,
+   `SpendingLimitExceeded()`, or `MemberInactive()`. Open the explorer link
+   and read `Status: Failed` on `FeralPolicyEngine.pay()`: a timestamped,
+   auditable denial instead of a silent error in an app log.
+4. **Policy Radar streams both verdicts live.** APPROVED events carry the
+   real tx hash, BLOCKED events carry the reverted tx, each arriving over
+   WebSocket in the same second it settles.
+5. **Invoices reconcile themselves.** Pay an invoice's TIP-1022 virtual
+   address and the protocol auto-forwards the funds to the treasury; the
+   invoice flips to *paid* — no cron job, no matching rule, no manual step.
+6. **The kill switch is on-chain.** Revoke a member behind the
+   type-to-confirm dialog and their very next payment reverts
+   `MemberInactive()` — dashboard access and on-chain authority are the same
+   switch.
+
+Prefer evidence over clicks: the **proof transactions** (an approved
+settlement, a `Status: Failed` payment, an invoice auto-forward) are linked
+under **Deployed on Moderato** below, and every claim here is asserted by the
+tests in **Verification**.
 
 ## Screenshots
 
