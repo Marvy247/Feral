@@ -1,0 +1,42 @@
+# dependencies
+node_modules/
+
+# env files — secrets never go in git (templates are kept)
+.env
+.env.*
+!.env.example
+
+# next.js build output
+.next/
+out/
+
+# compiled output
+dist/
+build/
+*.tsbuildinfo
+next-env.d.ts
+
+# foundry build output
+contracts/out/
+contracts/cache/
+
+# compiled local tooling (source is committed, binaries are not)
+backend/scripts/grind
+backend/scripts/grind_check
+
+# local git backups and scratch dirs
+dashboard/.git-template-backup/
+.tools/
+
+# leftover static data from another project (not part of FERAL)
+dashboard/public/snapshot/
+
+# logs
+*.log
+npm-debug.log*
+
+# OS noise
+.DS_Store
+
+# demo video script — intentionally not part of the repository
+DEMO_VIDEO.md
