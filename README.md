@@ -18,6 +18,18 @@ Built for the **Tempo track** (Crypto World's Fair by Colosseum), Moderato testn
 
 ---
 
+## Live demo
+
+- **App:** [feral-neon.vercel.app](https://feral-neon.vercel.app) — Vercel, opens
+  straight onto the seeded workspace (no login gate).
+- **Backend API:** [feral-8xrj.onrender.com](https://feral-8xrj.onrender.com) —
+  Render (Express + WebSocket + chain indexer); [`/health`](https://feral-8xrj.onrender.com/health)
+  answers `{"status":"ok","chain":"tempo-moderato"}`.
+- Wired both ways: the site's `NEXT_PUBLIC_BACKEND_URL` points at the Render
+  service, and the backend's `FRONTEND_URL` allows the Vercel origin (CORS).
+- Heads-up: the Render free plan spins down after ~15 min idle — first load
+  can take 15–60 s (cold start). Open it once before demoing.
+
 ## 90-second tour — verify every claim yourself
 
 No video and no setup required: each step below is something you can do (or
@@ -138,6 +150,10 @@ Example evidence txs:
 cd contracts && forge test            # 18/18 — 10 for FeralPolicyEngine incl. all 3 reverts
 cd dashboard && node scripts/e2e.mjs        # 12/12 — full UI flow incl. on-chain approve/block
 cd dashboard && node scripts/e2e-revoke.mjs # 8/8 — type-to-confirm kill switch, on-chain revoke tx
+
+# the same two suites against the hosted deployment (also verified green):
+APP_URL=https://feral-neon.vercel.app API_URL=https://feral-8xrj.onrender.com node scripts/e2e.mjs
+APP_URL=https://feral-neon.vercel.app API_URL=https://feral-8xrj.onrender.com node scripts/e2e-revoke.mjs
 ```
 
 - `forge test` — 18 passing (policy happy path, `CallNotAllowed`,

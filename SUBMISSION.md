@@ -25,6 +25,8 @@ contract (`FeralPolicyEngine`), so:
 Everything below runs live on Moderato today: 3 contracts deployed, 18/18 forge
 tests, 12/12 browser e2e, 8/8 kill-switch e2e — all against the real chain.
 
+**Live:** app → [feral-neon.vercel.app](https://feral-neon.vercel.app) · API → [feral-8xrj.onrender.com](https://feral-8xrj.onrender.com)
+
 ---
 
 ## Screenshots
@@ -251,6 +253,11 @@ Deployed addresses, evidence txs, and verify commands: [README.md](README.md).
 ---
 
 ## 10. Run it locally
+
+**Hosted, no setup:** [feral-neon.vercel.app](https://feral-neon.vercel.app) (Vercel)
+→ [feral-8xrj.onrender.com](https://feral-8xrj.onrender.com) (Render backend). The
+e2e suites run against it too: `APP_URL=https://feral-neon.vercel.app
+API_URL=https://feral-8xrj.onrender.com node scripts/e2e.mjs`.
 
 ```bash
 cd dashboard && cp .env.example .env.local   # public testnet demo session
