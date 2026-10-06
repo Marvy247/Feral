@@ -6,10 +6,12 @@
 // If they are not configured, we register a throwaway identity instead, so
 // the app still works (with an empty, onboarding-friendly workspace).
 
-const BASE = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001'
+// trim() — env vars pasted into a deploy dashboard often carry a stray
+// trailing space, which silently turns the demo login into a 401.
+const BASE = (process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001').trim()
 
-const DEMO_EMAIL = process.env.NEXT_PUBLIC_DEMO_EMAIL || ''
-const DEMO_PASSWORD = process.env.NEXT_PUBLIC_DEMO_PASSWORD || ''
+const DEMO_EMAIL = (process.env.NEXT_PUBLIC_DEMO_EMAIL || '').trim()
+const DEMO_PASSWORD = (process.env.NEXT_PUBLIC_DEMO_PASSWORD || '').trim()
 
 /** Fresh throwaway wallet — businesses.master_wallet_address is UNIQUE, so a
  *  guest session must never reuse a fixed address. */

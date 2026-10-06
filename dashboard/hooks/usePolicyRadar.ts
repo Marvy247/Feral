@@ -53,7 +53,9 @@ export function usePolicyRadar(businessId: string | null) {
       return
     }
 
-    const WS_URL = backendUrl.replace(/^https?/, 'ws')
+    // Replace only the "http" prefix: http:// → ws:// and https:// → wss://
+    // (replacing https? would yield ws:// from an HTTPS page — blocked).
+    const WS_URL = backendUrl.replace(/^http/, 'ws')
     const ws = new WebSocket(`${WS_URL}/ws/policy-radar`)
 
     ws.onopen = () => {
