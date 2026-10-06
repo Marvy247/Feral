@@ -1,0 +1,39 @@
+# Render blueprint — FERAL backend (Express + WebSocket + Tempo indexer)
+# Deploy: Render Dashboard → New → Blueprint → pick the Marvy247/Feral repo.
+# Public config lives here; secrets are set in the dashboard (Environment tab):
+#   SUPABASE_URL, SUPABASE_SERVICE_KEY, JWT_SECRET, DEPLOYER_PRIVATE_KEY, VIRTUAL_MASTER_ID
+services:
+  - type: web
+    name: feral-backend
+    runtime: node
+    rootDir: backend
+    plan: free
+    buildCommand: npm ci --no-audit --no-fund
+    startCommand: npx tsx src/index.ts
+    healthCheckPath: /health
+    envVars:
+      # CORS: allow the Vercel dashboard origin
+      - key: FRONTEND_URL
+        value: https://feral-neon.vercel.app
+      # Tempo Moderato testnet (chain id 42431) — public config
+      - key: TEMPO_RPC_URL
+        value: https://rpc.moderato.tempo.xyz
+      - key: TEMPO_CHAIN_ID
+        value: "42431"
+      - key: TEMPO_EXPLORER_URL
+        value: https://explore.testnet.tempo.xyz
+      - key: USDC_ADDRESS
+        value: 0x20c0000000000000000000000000000000000000
+      - key: FERAL_POLICY_ENGINE_ADDRESS
+        value: 0xDF445D3B191D7d0D0D31053890bEb1E712d96eCc
+      # Secrets — paste values in Render Dashboard → feral-backend → Environment
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_KEY
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: DEPLOYER_PRIVATE_KEY
+        sync: false
+      - key: VIRTUAL_MASTER_ID
+        sync: false
