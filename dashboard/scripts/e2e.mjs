@@ -129,9 +129,10 @@ try {
       )
       btn?.click()
     })
-    // wait for the save round-trip + modal close (event-based, not fixed sleep)
+    // wait for the save round-trip + modal close (event-based, not fixed sleep).
+    // On-chain access-key provisioning has taken up to ~14s — budget 30s.
     let modalClosed = false
-    for (let i = 0; i < 30; i++) {
+    for (let i = 0; i < 60; i++) {
       const t = await page.evaluate(() => document.body.innerText)
       if (!t.includes('Add Team Member')) { modalClosed = true; break }
       await sleep(500)
